@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head profile="2020-07-31.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
+<link rel="icon"
+      type="image/png"
+      href="2020-07-31.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <title> Product Form </title>
+
+
+  <style type="text/css" media="all">
+    .form_table {
+      text-align: center;
+    }
+
+    .full_width .segment_header {
+      text-align: center !important;
+    }
+
+    .q {
+      float: none;
+      display: inline-block;
+    }
+
+    table.matrix,
+    table.rating_ranking {
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+  </style>
+</head>
+
+<body style="background-color:powderblue;">
+  <div class="topnav">
+    <a class="active" href="MyPie.html">Home</a>
+    <div id="myLinks">
+    <a href="clicktobarter.html">Click To Barter</a>
+    <a href="ourTeam.html">Our Team</a>
+  </div>
+
+  <script>
+  function myFunction() {
+  var x = document.getElementById("myLinks");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}
+  </script>
+  </div>
+    <link rel="stylesheet" type="text/css" href="navigation.css">
+  &nbsp;&nbsp;
+  <h1> To Get An Item Please Fill Out the Form. </h1>
+
+  <form name="theForm">
+    <p>
+      <label>Requested Item:</label>
+      <input type="text" id="product" value=""  onkeyup="manage(this)"/ >
+    </p>
+
+    <p>
+      <label>Trading Offer:</label>
+      <input type="text" id="tradingItem" value=""  onkeyup="manage(this)"/>
+    </p>
+
+    <p>
+      <label>Name:</label>
+      <input type="text" id="name" value=""  onkeyup="manage(this)"/>
+    </p>
+
+    <p>
+      <label>Phone Number:</label>
+      <input type="number" id="PhoneNumber" value=""  onkeyup="manage(this)"/>
+    </p>
+
+    <p>
+      <label>Location:</label>
+      <input type="text" id="Location" value=""  onkeyup="manage(this)" />
+    </p>
+
+  </form>
+
+  <form action="#" onsubmit="return validateFormOnSubmit(this)">
+    <input type="submit" id="submit" disabled />
+  </form>
+
+  <script>
+      function manage(txt) {
+          var bt = document.getElementById('submit');
+          var ele = document.getElementsByTagName('input');
+
+          // Loop through each element.
+          for (i = 0; i < ele.length; i++) {
+
+              // Check the element type
+              if (ele[i].type == 'text' && ele[i].value == '') {
+                  bt.disabled = true;    // Disable the button.
+                  return false;
+              }
+              else {
+                  bt.disabled = false;   // Enable the button.
+              }
+          }
+      }
+
+    function validateFormOnSubmit(theForm) {
+
+      //to get phone number
+      var phoneNumberValue = document.getElementById("PhoneNumber").value;
+      var customerPhoneNumber = "+1" + phoneNumberValue;
+
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Basic QUM3MWQwODE3YjBjMmVhNmFhYTFmOTk2Njg0NWRjMjBhZTpkY2M0OGFjMzVkODZlZjUxYjg0MjdjY2M4Y2Y1NWMwMQ==");
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+      var urlencoded = new URLSearchParams();
+      urlencoded.append("To", customerPhoneNumber);
+      urlencoded.append("From", "+14843263594");
+      urlencoded.append("Body", "\n Here is your order info: \n" + "Name: " + document.getElementById("name").value + " \nRequested Item: " + document.getElementById("product").value + " \nTrading Offer: " + document.getElementById("tradingItem").value + "\n You have 3 barterers in your area. \n Please contact 5107661221 if you have any questions");
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+      };
+
+      fetch("https://api.twilio.com/2010-04-01/Accounts/AC71d0817b0c2ea6aaa1f9966845dc20ae/Messages.json", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => alert('error', error));
+    }
+  </script>
+
+
+</body>
+
+</html>
